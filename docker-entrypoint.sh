@@ -23,6 +23,12 @@ file_env() {
 	unset "$fileVar"
 }
 
+sed -i -E "s/(<base>Listen[ ]*.*:)[0-9]+/\1${APACHE_PORT_HTTP}/g" /etc/apache2/ports.conf
+sed -i -E "s/(<base>Listen[ ]*)[0-9]+/\1${APACHE_PORT_HTTPS}/g" /etc/apache2/ports.conf
+
+
+
+
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	file_env 'WORDPRESS_DB_HOST' 'mysql'
 	# if we're linked to MySQL and thus have credentials already, let's use them
