@@ -23,8 +23,15 @@ file_env() {
 	unset "$fileVar"
 }
 
-sed -i -E "s/(<base>Listen[ ]*.*:)[0-9]+/\1${APACHE_PORT_HTTP}/g" /etc/apache2/ports.conf
-sed -i -E "s/(<base>Listen[ ]*)[0-9]+/\1${APACHE_PORT_HTTPS}/g" /etc/apache2/ports.conf
+file_env 'APACHE_PORT_HTTP' "${APACHE_PORT_HTTP:-}"
+file_env 'APACHE_PORT_HTTPS' "${APACHE_PORT_HTTPS:-}"
+
+if [ -nz "$APACHE_PORT_HTTP" ]; then
+	sed -i -E "s/(<base>Listen[ ]*.*:)[0-9]+/\1${APACHE_PORT_HTTP}/g" /etc/apache2/ports.conf
+fi
+if [ -nz "$APACHE_PORT_HTTPS" ]; then
+	sed -i -E "s/(<base>Listen[ ]*)[0-9]+/\1${APACHE_PORT_HTTPS}/g" /etc/apache2/ports.conf
+fi
 
 
 
