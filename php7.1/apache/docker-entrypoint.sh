@@ -23,6 +23,16 @@ file_env() {
 	unset "$fileVar"
 }
 
+file_env 'APACHE_PORT_HTTP' "${APACHE_PORT_HTTP:-}"
+file_env 'APACHE_PORT_HTTPS' "${APACHE_PORT_HTTPS:-}"
+
+if [ -nz "$APACHE_PORT_HTTP" ]; then
+	sed -i -E "s/(<base>Listen[ ]*.*:)[0-9]+/\1${APACHE_PORT_HTTP}/g" /etc/apache2/ports.conf
+fi
+if [ -nz "$APACHE_PORT_HTTPS" ]; then
+	sed -i -E "s/(<base>Listen[ ]*)[0-9]+/\1${APACHE_PORT_HTTPS}/g" /etc/apache2/ports.conf
+fi
+
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	file_env 'WORDPRESS_DB_HOST' 'mysql'
 	# if we're linked to MySQL and thus have credentials already, let's use them
