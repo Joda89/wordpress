@@ -30,7 +30,7 @@ if [ -n "$APACHE_PORT_HTTP" ]; then
 	sed -E "s/(Listen[ ])(80)/\1${APACHE_PORT_HTTP}/g" /etc/apache2/ports.conf
 fi
 if [ -n "$APACHE_PORT_HTTPS" ]; then
-	sed -i -E "s/(Listen[ ])(443)/\1${APACHE_PORT_HTTPS}/g" /etc/apache2/ports.conf
+	sed -E "s/(Listen[ ])(443)/\1${APACHE_PORT_HTTPS}/g" /etc/apache2/ports.conf
 fi
 
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
