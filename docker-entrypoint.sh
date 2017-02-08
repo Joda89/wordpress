@@ -57,7 +57,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 			echo >&2 "WARNING: $(pwd) is not empty - press Ctrl+C now if this is an error!"
 			( set -x; ls -A; sleep 10 )
 		fi
-		tar cf - --one-file-system -C /usr/src/wordpress . | tar xf -
+		cp -R /usr/src/wordpress/* .
 		echo >&2 "Complete! WordPress has been successfully copied to $(pwd)"
 		if [ ! -e .htaccess ]; then
 			# NOTE: The "Indexes" option is disabled in the php:apache base image
